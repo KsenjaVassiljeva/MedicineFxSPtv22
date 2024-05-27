@@ -6,9 +6,9 @@
 package sptv22medicineshop;
 
 import admin.adminpanel.AdminpanelController;
-import customers.newcustomer.NewCustomerController;
-import customers.listcustomers.ListCustomersController;
-import customers.customerprofile.CustomerProfileController;
+import customers.newcustomer.NewcustomerController;
+import customers.listcustomers.ListcustomersController;
+import customers.customerprofile.CustomerprofileController;
 import entity.Medicine;
 import entity.User;
 import java.io.IOException;
@@ -28,9 +28,10 @@ import javafx.scene.layout.HBox;
 import javafx.scene.layout.VBox;
 import javafx.stage.Modality;
 import javafx.stage.Stage;
-import medicine.newmedicine.NewMedicineController;
-import medicine.listmedicines.ListMedicinesController;
-import users.loginform.LoginFormController;
+import javax.persistence.EntityManager;
+import medicine.newmedicine.NewmedicineController;
+import medicine.listmedicines.ListmedicinesController;
+import users.loginform.LoginformController;
 
 /**
  * 
@@ -104,8 +105,8 @@ public class HomeController implements Initializable {
             FXMLLoader loader = new FXMLLoader();
             loader.setLocation(getClass().getResource("/customers/newcustomer/newcustomer.fxml"));
             VBox vbNewCustomer = loader.load();
-            NewCustomerController newCustomerController = loader.getController();
-            newCustomerController.setHomeController(this);
+            NewcustomerController newcustomerController = loader.getController();
+            newcustomerController.setHomeController(this);
             app.getPrimaryStage().setTitle("SPTV22FXPharmacy - Add New Customer");
             vbContent.getChildren().clear();
             vbContent.getChildren().add(vbNewCustomer);
@@ -121,7 +122,7 @@ public class HomeController implements Initializable {
             FXMLLoader loader = new FXMLLoader();
             loader.setLocation(getClass().getResource("/customers/customerprofile/customerprofile.fxml"));
             VBox vbCustomerProfileRoot = loader.load();
-            CustomerProfileController customerProfileController = loader.getController();
+            CustomerprofileController customerProfileController = loader.getController();
             customerProfileController.setHomeController(this);
             try {
                 customerProfileController.loadCustomer();
@@ -158,7 +159,7 @@ public class HomeController implements Initializable {
             FXMLLoader loader = new FXMLLoader();
             loader.setLocation(getClass().getResource("/medicine/newmedicine/newmedicine.fxml"));
             VBox vbNewMedicine = loader.load();
-            NewMedicineController newMedicineController = loader.getController();
+            NewmedicineController newMedicineController = loader.getController();
             newMedicineController.setHomeController(this);
             app.getPrimaryStage().setTitle("SPTV22FXPharmacy - Add New Medicine");
             this.lbInfo.setText("");
@@ -188,7 +189,7 @@ public class HomeController implements Initializable {
             FXMLLoader loader = new FXMLLoader();
             loader.setLocation(getClass().getResource("/customers/listcustomers/listcustomers.fxml"));
             VBox vbListCustomers = loader.load();
-            ListCustomersController listCustomersController = loader.getController();
+            ListcustomersController listCustomersController = loader.getController();
             listCustomersController.setHomeController(this);
             listCustomersController.loadCustomers();
             app.getPrimaryStage().setTitle("SPTV22FXPharmacy - Customer List");
@@ -219,7 +220,7 @@ public class HomeController implements Initializable {
             FXMLLoader loader = new FXMLLoader();
             loader.setLocation(getClass().getResource("/medicine/listmedicines/listmedicines.fxml"));
             VBox vbListMedicines = loader.load();
-            ListMedicinesController listMedicinesController = loader.getController();
+            ListmedicinesController listMedicinesController = loader.getController();
             listMedicinesController.setHomeController(this);
             listMedicinesController.loadMedicines();
             app.getPrimaryStage().setTitle("SPTV22MedicineShop - Medicine List");
@@ -252,6 +253,11 @@ public class HomeController implements Initializable {
     public Stage getLoginWindow() {
         return loginWindow;
     }
+    
+    public EntityManager getEntityManager() {
+        return app.getEntityManager();
+    }
+
 
     void loadMedicines() {
         List<Medicine> listMedicines = app.getEntityManager()
