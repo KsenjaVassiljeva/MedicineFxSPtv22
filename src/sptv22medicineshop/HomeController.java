@@ -31,6 +31,7 @@ import javafx.stage.Stage;
 import javax.persistence.EntityManager;
 import medicine.newmedicine.NewmedicineController;
 import medicine.listmedicines.ListmedicinesController;
+import medicines.medicine.MedicineController;
 import users.loginform.LoginformController;
 
 /**
@@ -44,7 +45,9 @@ public class HomeController implements Initializable {
     @FXML private Label lbHello;
     @FXML private Label lbInfo;
     @FXML private VBox vbContent;
-    
+    public static User user;
+    private final SPTV22MedicineShop medicineShop = new SPTV22MedicineShop();
+
     @FXML
     public void showAdminPanel() {
         if (SPTV22MedicineShop.user == null) {
@@ -53,7 +56,8 @@ public class HomeController implements Initializable {
             getLbInfo().setText("Please log in with your credentials!"); 
             return;
         }
-        if (!SPTV22MedicineShop.user.getRoles().contains(SPTV22MedicineShop.ROLES.ADMINISTRATOR.toString())) {
+        if (SPTV22MedicineShop.user.getRoles().contains(SPTV22MedicineShop.ROLES.ADMINISTRATOR.toString())) {
+        } else {
             getLbInfo().getStyleClass().clear();
             getLbInfo().getStyleClass().add("infoError");
             getLbInfo().setText("Access denied. Administrators only!"); 
@@ -82,7 +86,7 @@ public class HomeController implements Initializable {
         loader.setLocation(getClass().getResource("/users/loginform/loginform.fxml"));
         try {
             VBox vbLoginFormRoot = loader.load();
-            LoginFormController loginFormController = loader.getController();
+            LoginformController loginFormController = loader.getController();
             loginFormController.setHomeController(this);
             Scene scene = new Scene(vbLoginFormRoot, 401, 180);
             loginWindow.setTitle("Login");
@@ -210,7 +214,7 @@ public class HomeController implements Initializable {
             getLbInfo().setText("Please log in with your credentials!"); 
             return;
         }
-        if (!SPTV22MedicineShop.user.getRoles().contains(SPTV22MedicineShop.ROLES.USER.toString())) {
+        if (!SPTV22MedicineShop.user.getRoles().contains(SPTV22MedicineShop.ROLES.MANAGER.toString())) {
             getLbInfo().getStyleClass().clear();
             getLbInfo().getStyleClass().add("infoError");
             getLbInfo().setText("Access denied. Users only!"); 
@@ -260,21 +264,23 @@ public class HomeController implements Initializable {
 
 
     void loadMedicines() {
-        List<Medicine> listMedicines = app.getEntityManager()
-                .createQuery("SELECT m FROM Medicine m")
-                .getResultList();
-        ObservableList medicines = FXCollections.observableArrayList(listMedicines);
-        HBox hbListMedicines = new HBox();
-        try {
-            FXMLLoader loader = new FXMLLoader();
-            loader.setLocation(getClass().getResource("/medicine/medicine/medicine.fxml"));
-            VBox vbMedicine = loader.load();
-            // Assuming you have a MedicineController to handle the medicines
-            // MedicineController medicineController = loader.getController();
-            // medicineController.setMedicines(medicines);
-            
-        } catch (IOException ex) {
-            Logger.getLogger(HomeController.class.getName()).log(Level.SEVERE, null, ex);
-        }    
+    List<Medicine> listMedicines = app.getEntityManager()
+            .createQuery("SELECT m FROM Medicine m", Medicine.class)
+            .getResultList();
+    ObservableList<Medicine> medicines = FXCollections.observableArrayList(listMedicines);
+    vbContent.getChildren().clear(); // Очищаем содержимое, чтобы не дублировать лекарства
+
+        for (Medicine medicine : medicines) {
+            try {
+                FXMLLoader loader = new FXMLLoader();
+                loader.setLocation(getClass().getResource("/medicine/medicine/medicine.fxml"));
+                VBox vbMedicine = loader.load();
+                MedicineController medicineController = loader.getController();
+                medicineController.setMedicine(medicine); // Устанавливаем лекарство для контроллера
+                vbContent.getChildren().add(vbMedicine); // Добавляем лекарство в интерфейс
+            } catch (IOException ex) {
+                Logger.getLogger(HomeController.class.getName()).log(Level.SEVERE, null, ex);
+            }
+        }
     }
 }

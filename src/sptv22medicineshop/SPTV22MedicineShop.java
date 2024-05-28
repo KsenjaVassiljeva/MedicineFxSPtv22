@@ -15,11 +15,15 @@ import tools.PassEncrypt;
 /**
  * Main class representing the Medicine Shop application.
  */
-public class SPTV22MedicineShop extends Application {
+public class SPTV22MedicineShop extends Application { 
 
-    static Object user;    
+    static User user;
+
+    public static void setUser(User user) {
+        SPTV22MedicineShop.user = user;
+    }
     private Stage primaryStage;
-    public static enum ROLES {ADMINISTRATOR, MANAGER, PHARMACIST};
+    public enum ROLES {ADMINISTRATOR, MANAGER, PHARMACIST};
     private final EntityManager entityManager;
 
     /**

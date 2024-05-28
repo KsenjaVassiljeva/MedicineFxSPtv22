@@ -1,24 +1,36 @@
 package entity;
 
 import java.io.Serializable;
+import java.util.List;
 import javax.persistence.Entity;
 import javax.persistence.GeneratedValue;
 import javax.persistence.GenerationType;
 import javax.persistence.Id;
+import javax.persistence.ManyToMany;
+import javax.persistence.Table;
 
 /**
  * Medicine entity class representing a medicine in the pharmacy system.
  */
 @Entity
+@Table(name = "medicine")
 public class Medicine implements Serializable {
 
     @Id
-    @GeneratedValue(strategy = GenerationType.AUTO)
+    @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;
     private String name;
     private String description;
     private double price;
     private int quantityInStock;
+
+    @ManyToMany
+    private List<Manufacturer> manufacturers;
+
+    @ManyToMany
+    private List<Category> categories;
+
+    private byte[] image;
 
     // Constructors
     public Medicine() {
@@ -71,6 +83,35 @@ public class Medicine implements Serializable {
     public void setQuantityInStock(int quantityInStock) {
         this.quantityInStock = quantityInStock;
     }
+
+    public List<Manufacturer> getManufacturers() {
+        return manufacturers;
+    }
+
+    public void setManufacturers(List<Manufacturer> manufacturers) {
+        this.manufacturers = manufacturers;
+    }
+
+    public List<Category> getCategories() {
+        return categories;
+    }
+
+    public void setCategories(List<Category> categories) {
+        this.categories = categories;
+    }
+
+    public byte[] getImage() {
+        return image;
+    }
+
+    public void setImage(byte[] image) {
+        this.image = image;
+    }
+    
+    public void setQuantity(int quantity) {
+    this.quantityInStock = quantity;
+    }
+
 
     // Override toString method
     @Override
