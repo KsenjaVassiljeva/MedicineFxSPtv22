@@ -9,6 +9,7 @@
     <class>entity.Order</class>
     <class>entity.OrderItem</class>
     <class>entity.User</class>
+    <class>entity.Product</class>
     <properties>
       <property name="javax.persistence.jdbc.url" value="jdbc:mysql://localhost:3306/medicinetest?zeroDateTimeBehavior=convertToNull&amp;characterEncoding=utf8&amp;useUnicode=true"/>
       <property name="javax.persistence.jdbc.user" value="medicinetest"/>

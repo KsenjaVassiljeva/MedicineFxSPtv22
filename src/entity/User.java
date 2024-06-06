@@ -1,31 +1,33 @@
 package entity;
 
 import java.io.Serializable;
+import java.security.SecureRandom;
 import java.util.ArrayList;
-import java.util.HashSet;
+import java.util.Base64;
 import java.util.List;
-import java.util.Set;
-import javax.persistence.CascadeType;
-import javax.persistence.ElementCollection;
-import javax.persistence.Entity;
-import javax.persistence.FetchType;
-import javax.persistence.GeneratedValue;
-import javax.persistence.GenerationType;
-import javax.persistence.Id;
-import javax.persistence.OneToOne;
+import javax.persistence.*;
 
-/**
- * User entity class representing a user in the pharmacy system.
- */
 @Entity
 public class User implements Serializable {
 
     @Id
-    @GeneratedValue(strategy = GenerationType.AUTO)
+    @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;
+    
+    private String username; // If you need username, it should be used
+    
+    @Column(nullable = false, unique = true) // Ensure login is unique and not nullable
     private String login;
+    
+    @Column(nullable = false) // Ensure password is not nullable
     private String password;
+    
+    @Column(nullable = false) // Ensure salt is not nullable
+    private String salt;
+    
     @ElementCollection(fetch = FetchType.EAGER)
+    @CollectionTable(name = "user_roles", joinColumns = @JoinColumn(name = "user_id"))
+    @Column(name = "role")
     private List<String> roles = new ArrayList<>();
     
     @OneToOne(cascade = CascadeType.ALL)
@@ -35,9 +37,10 @@ public class User implements Serializable {
     public User() {
     }
 
-    public User(String login, String password, Customer customer) {
+    public User(String login, String password, String salt, Customer customer) {
         this.login = login;
         this.password = password;
+        this.salt = salt;
         this.customer = customer;
     }
 
@@ -82,12 +85,20 @@ public class User implements Serializable {
         this.customer = customer;
     }
 
-    public String getFirstname() {
-        return customer != null ? customer.getFirstname() : null;
+    public String getUsername() {
+        return username;
     }
 
-    public String getLastname() {
-        return customer != null ? customer.getLastname() : null;
+    public void setUsername(String username) {
+        this.username = username;
+    }
+
+    public String getSalt() {
+        return salt;
+    }
+
+    public void setSalt(String salt) {
+        this.salt = salt;
     }
 
     // Override toString method
@@ -100,5 +111,12 @@ public class User implements Serializable {
                 ", roles=" + roles +
                 ", customer=" + customer +
                 '}';
+    }
+
+    public void generateAndSetSalt() {
+        SecureRandom random = new SecureRandom();
+        byte[] saltBytes = new byte[16];
+        random.nextBytes(saltBytes);
+        this.salt = Base64.getEncoder().encodeToString(saltBytes);
     }
 }

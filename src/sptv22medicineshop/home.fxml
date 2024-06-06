@@ -8,34 +8,28 @@
 <?import javafx.scene.layout.VBox?>
 <?import javafx.scene.text.Font?>
 
-
-<VBox maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="400.0" prefWidth="600.0" xmlns="http://javafx.com/javafx/8.0.171" xmlns:fx="http://javafx.com/fxml/1">
+<VBox maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="400.0" prefWidth="600.0" xmlns="http://javafx.com/javafx/8.0.111" xmlns:fx="http://javafx.com/fxml/1" fx:controller="sptv22medicineshop.HomeController">
    <children>
       <MenuBar fx:id="mbMenu">
          <menus>
-            <Menu mnemonicParsing="false" text="Книги">
+            <Menu mnemonicParsing="false" text="Medicines">
                <items>
-                  <MenuItem fx:id="miAddBook" mnemonicParsing="false" onAction="#addNewBook" text="Добавить книгу" />
-                  <MenuItem fx:id="miListBooks" mnemonicParsing="false" onAction="#listBooks" text="Список книг" />
+                  <MenuItem fx:id="miAddMedicine" mnemonicParsing="false" onAction="#addNewMedicine" text="Add Medicine" />
+                  <MenuItem fx:id="miListMedicines" mnemonicParsing="false" onAction="#listMedicines" text="List Medicines" />
                </items>
             </Menu>
-            <Menu mnemonicParsing="false" text="Пользователи">
+            <Menu mnemonicParsing="false" text="Users">
                <items>
-                  <MenuItem fx:id="miLogin" mnemonicParsing="false" onAction="#login" text="Вход" />
-                  <MenuItem fx:id="miNewUser" mnemonicParsing="false" onAction="#addNewUser" text="Добавить пользователя" />
-                  <MenuItem fx:id="miListUsers" mnemonicParsing="false" onAction="#listUsers" text="Список пользователей" />
-                  <MenuItem fx:id="miProfile" mnemonicParsing="false" onAction="#userProfile" text="Профиль пользователя" />
+                  <MenuItem fx:id="miLogin" mnemonicParsing="false" onAction="#login" text="Login" />
+                  <MenuItem fx:id="miNewUser" mnemonicParsing="false" onAction="#addNewCustomer" text="Add User" />
+                  <MenuItem fx:id="miListUsers" mnemonicParsing="false" onAction="#listCustomers" text="List Users" />
+                  <MenuItem fx:id="miProfile" mnemonicParsing="false" onAction="#customerProfile" text="User Profile" />
                </items>
             </Menu>
-            <Menu mnemonicParsing="false" text="Администратор">
+            <Menu mnemonicParsing="false" text="Administrator">
                <items>
-                  <MenuItem fx:id="miAdminPanel" mnemonicParsing="false" onAction="#showAdminPanel" text="Панель администратора" />
-                  <MenuItem fx:id="miRanges" mnemonicParsing="false" onAction="#showRangepage" text="Рейтинги" />
-               </items>
-            </Menu>
-            <Menu mnemonicParsing="false" text="Таймер">
-               <items>
-                  <MenuItem fx:id="miRanges1" mnemonicParsing="false" onAction="#showRangepage" text="Таймер день скидок" />
+                  <MenuItem fx:id="miAdminPanel" mnemonicParsing="false" onAction="#showAdminPanel" text="Admin Panel" />
+                  <MenuItem fx:id="miRanges" mnemonicParsing="false" onAction="#showRangepage" text="Ratings" />
                </items>
             </Menu>
          </menus>
